@@ -17,9 +17,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::get('appointment', [AppointmentController::class, 'create'])->name('appointment.create');
-    Route::post('appointment', [AppointmentController::class, 'store'])->name('appointment.store');
-    Route::get('appointment/slots/{date}', [AppointmentController::class, 'availableSlots'])->name('appointment.slots');
+    Route::prefix('appointment')->name('appointment.')->group(function () {
+        Route::get('/', [AppointmentController::class, 'create'])->name('create');
+        Route::post('/', [AppointmentController::class, 'store'])->name('store');
+        Route::get('slots/{date}', [AppointmentController::class, 'availableSlots'])->name('slots');
+    });
 });
 
 require __DIR__.'/auth.php';

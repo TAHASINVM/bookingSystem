@@ -26,7 +26,7 @@ class AppointmentRepository implements AppointmentRepositoryInterface
             $start->addMinutes(30);
         }
 
-        $bookedSlots = Appointment::whereDate('date', $date)->pluck('time_slot')->toArray();
+        $bookedSlots = Appointment::whereDate('date', $date)->where('user_id', Auth::id())->pluck('time_slot')->toArray();
         $availableSlots = array_values(array_diff($slots, $bookedSlots));
         return $availableSlots;
     }
